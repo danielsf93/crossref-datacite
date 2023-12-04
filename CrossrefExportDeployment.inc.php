@@ -123,15 +123,11 @@ class CrossrefExportDeployment extends PKPImportExportDeployment {
 		}
 		return $bookNode;
 	}
+
 	function createBookMetadataNode($documentNode, $submission, $publication) {
 		$request = Application::get()->getRequest();
 		$press = $request->getPress();
 		$locale = $publication->getData('locale');
-	
-		// Verificar se $locale está vazio e atribuir 'pt' como valor padrão
-		if (empty($locale)) {
-			$locale = 'pt';
-		}
 
 		// If the book is part of series use book_series_metadata else use book_metadata
 		// Consider adding book_set_metadata option in cases where a series does not have an ISSN
@@ -304,119 +300,91 @@ class CrossrefExportDeployment extends PKPImportExportDeployment {
 		return $contentItemNode;
 	}
 
-/**
- * Cria um elemento XML para os contribuidores (autores ou editores).
- *
- * @param DOMDocument $documentNode O nó do documento XML.
- * @param array $authors Um array de objetos representando os autores ou editores.
- * @param string $locale O idioma usado para os elementos XML.
- * @param bool $isChapter Define se os contribuidores são para um capítulo.
- * @return DOMElement O elemento XML que contém informações sobre os contribuidores.
- */
-function createContributorsNode($documentNode, $authors, $locale, $isChapter = false) {
-    // Cria um elemento 'contributors' como nó pai.
-    $contributorsNode = $documentNode->createElement('contributors');
-    // Variável para rastrear se é o primeiro contribuidor.
-    $isFirst = true;
+	function createContributorsNode($documentNode, $authors, $locale, $isChapter = false) {
 
-    // Loop através dos autores/editores.
-    foreach ($authors as $author) {
-        // Cria um elemento 'person_name' para cada autor/editor.
-        $personNameNode = $documentNode->createElement('person_name');
-        // Variável para rastrear se o autor/editor tem um nome alternativo.
-        $hasAltName = false;
+		$contributorsNode = $documentNode->createElement('contributors');
 
-        // Determina o papel do contribuidor (autor ou editor).
-        if ($isChapter || !$author->getData('isVolumeEditor')) {
-            $personNameNode->setAttribute('contributor_role', 'author');
-        } else {
-            $personNameNode->setAttribute('contributor_role', 'editor');
-        }
+		$isFirst = true;
+		foreach ($authors as $author) {
+			$personNameNode = $documentNode->createElement('person_name');
 
-        // Atribui a sequência do contribuidor (primeiro ou adicional).
-        if ($isFirst) {
-            $personNameNode->setAttribute('sequence', 'first');
-        } else {
-            $personNameNode->setAttribute('sequence', 'additional');
-        }
+			if ($isChapter || !$author->getData('isVolumeEditor')) {
+				$personNameNode->setAttribute('contributor_role', 'author');
+			} else {
+				$personNameNode->setAttribute('contributor_role', 'editor');
+			}
 
-        // Obtém os nomes de família e dados dos autores.
-        $familyNames = $author->getFamilyName(null);
-        $givenNames = $author->getGivenName(null);
+			if ($isFirst) {
+				$personNameNode->setAttribute('sequence', 'first');
+			} else {
+				$personNameNode->setAttribute('sequence', 'additional');
+			}
+			
+			$familyNames = $author->getFamilyName(null);
+			$givenNames = $author->getGivenName(null);
 
-        // Verifica se há nomes de família e dados de autores.
-        if (!empty($familyNames) && !empty($givenNames)) {
-            // Atribui o idioma ao nó 'person_name'.
-            $personNameNode->setAttribute('language', PKPLocale::getIso1FromLocale($locale));
+			// Check if both givenName and familyName is set for the submission language.
+			if (!empty($familyNames[$locale]) && !empty($givenNames[$locale])) {
+				$personNameNode->setAttribute('language', PKPLocale::getIso1FromLocale($locale));
+				$personNameNode->appendChild($node = $documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenNames[$locale]), ENT_COMPAT, 'UTF-8')));
+				$personNameNode->appendChild($node = $documentNode->createElement('surname', htmlspecialchars(ucfirst($familyNames[$locale]), ENT_COMPAT, 'UTF-8')));
 
-            // Loop pelos nomes dados em diferentes idiomas.
-            foreach ($givenNames as $locale => $givenName) {
-                if (!empty($givenName)) {
-                    // Adiciona o nome dado ao nó 'person_name'.
-                    $personNameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenName), ENT_COMPAT, 'UTF-8')));
-                }
-            }
+				$hasAltName = false;
+				foreach($familyNames as $otherLocal => $familyName) {
+					if ($otherLocal != $locale && isset($familyName) && !empty($familyName)) {
+						if (!$hasAltName) {
+							$altNameNode = $documentNode->createElement('alt-name');
+							$hasAltName = true;
+						}
 
-            // Loop pelos sobrenomes em diferentes idiomas.
-            foreach ($familyNames as $locale => $familyName) {
-                if (!empty($familyName)) {
-                    // Adiciona o sobrenome ao nó 'person_name'.
-                    $personNameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
-                }
-            }
+						$nameNode = $documentNode->createElement('name');
+						$nameNode->setAttribute('language', PKPLocale::getIso1FromLocale($otherLocal));
 
-            // Variável para rastrear se há um nome alternativo.
-            $hasAltName = false;
+						$nameNode->appendChild($node = $documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
+						if (isset($givenNames[$otherLocal]) && !empty($givenNames[$otherLocal])) {
+							$nameNode->appendChild($node = $documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenNames[$otherLocal]), ENT_COMPAT, 'UTF-8')));
+						}
 
-            // Loop pelos sobrenomes em outros idiomas.
-            foreach ($familyNames as $otherLocal => $familyName) {
-                if ($otherLocal != $locale && isset($familyName) && !empty($familyName)) {
-                    // Verifica se é o primeiro nome alternativo.
-                    if (!$hasAltName) {
-                        // Cria o nó 'alt-name' se o nome alternativo existir.
-                        $altNameNode = $documentNode->createElement('alt-name');
-                        $hasAltName = true;
-                    }
+						$altNameNode->appendChild($nameNode);
+					}
+				}
 
-                    // Cria um nó 'name' para o nome alternativo.
-                    $nameNode = $documentNode->createElement('name');
-                    $nameNode->setAttribute('language', PKPLocale::getIso1FromLocale($otherLocal));
+			} elseif (!empty($givenNames[$locale])) {
+				$personNameNode->setAttribute('language', PKPLocale::getIso1FromLocale($locale));
+				$personNameNode->appendChild($node = $documentNode->createElement('surname', htmlspecialchars(ucfirst($givenNames[$locale]), ENT_COMPAT, 'UTF-8')));
 
-                    // Adiciona o sobrenome ao nó 'name'.
-                    $nameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
 
-                    // Adiciona o nome dado se estiver disponível.
-                    if (isset($givenNames[$otherLocal]) && !empty($givenNames[$otherLocal])) {
-                        $nameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenNames[$otherLocal]), ENT_COMPAT, 'UTF-8')));
-                    }
+				$hasAltName = false;
+				foreach($givenNames as $otherLocal => $givenName) {
+					if ($otherLocal != $locale && isset($givenName) && !empty($givenName)) {
+						if (!$hasAltName) {
+							$altNameNode = $documentNode->createElement('alt-name');
+							$hasAltName = true;
+						}
 
-                    // Adiciona o nó 'name' ao nó 'alt-name'.
-                    $altNameNode->appendChild($nameNode);
-                }
-            }
-        }
+						$nameNode = $documentNode->createElement('name');
+						$nameNode->setAttribute('language', PKPLocale::getIso1FromLocale($otherLocal));
 
-        // Adiciona o ORCID se estiver disponível.
-        if ($author->getData('orcid')) {
-            $personNameNode->appendChild($documentNode->createElement('ORCID', $author->getData('orcid')));
-        }
+						$nameNode->appendChild($node = $documentNode->createElement('surname', htmlspecialchars(ucfirst($givenName), ENT_COMPAT, 'UTF-8')));
+						$altNameNode->appendChild($nameNode);
+					}
+				}
+			}
 
-        // Adiciona o nó 'alt-name' ao nó 'person_name' se houver um nome alternativo.
-        if ($hasAltName && isset($altNameNode)) {
-            $personNameNode->appendChild($altNameNode);
-        }
+			if ($author->getData('orcid')) {
+				$personNameNode->appendChild($node = $documentNode->createElement('ORCID', $author->getData('orcid')));
+			}
 
-        // Adiciona o nó 'person_name' ao nó 'contributors'.
-        $contributorsNode->appendChild($personNameNode);
+			if ($hasAltName && $altNameNode) {
+				$personNameNode->appendChild($altNameNode);
+			}
 
-        // Define $isFirst como false após o primeiro contribuidor.
-        $isFirst = false;
-    }
+			$contributorsNode->appendChild($personNameNode);
+			$isFirst = false;
+		}
 
-    // Retorna o nó 'contributors' completo.
-    return $contributorsNode;
-}
-
+		return $contributorsNode;
+	}
 
 	function xmlEscape($value) {
 		return XMLNode::xmlentities($value, ENT_NOQUOTES);
