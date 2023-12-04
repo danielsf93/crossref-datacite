@@ -304,80 +304,119 @@ class CrossrefExportDeployment extends PKPImportExportDeployment {
 		return $contentItemNode;
 	}
 
-	function createContributorsNode($documentNode, $authors, $locale, $isChapter = false) {
-		$contributorsNode = $documentNode->createElement('contributors');
-		$isFirst = true;
-	
-		foreach ($authors as $author) {
-			$personNameNode = $documentNode->createElement('person_name');
-			$hasAltName = false;
-	
-			if ($isChapter || !$author->getData('isVolumeEditor')) {
-				$personNameNode->setAttribute('contributor_role', 'author');
-			} else {
-				$personNameNode->setAttribute('contributor_role', 'editor');
-			}
-	
-			if ($isFirst) {
-				$personNameNode->setAttribute('sequence', 'first');
-			} else {
-				$personNameNode->setAttribute('sequence', 'additional');
-			}
-	
-			$familyNames = $author->getFamilyName(null);
-			$givenNames = $author->getGivenName(null);
-	
-			if (!empty($familyNames) && !empty($givenNames)) {
-				$personNameNode->setAttribute('language', PKPLocale::getIso1FromLocale($locale));
-	
-				foreach ($givenNames as $locale => $givenName) {
-					if (!empty($givenName)) {
-						$personNameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenName), ENT_COMPAT, 'UTF-8')));
-					}
-				}
-	
-				foreach ($familyNames as $locale => $familyName) {
-					if (!empty($familyName)) {
-						$personNameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
-					}
-				}
-	
-				$hasAltName = false;
-				foreach ($familyNames as $otherLocal => $familyName) {
-					if ($otherLocal != $locale && isset($familyName) && !empty($familyName)) {
-						if (!$hasAltName) {
-							$altNameNode = $documentNode->createElement('alt-name');
-							$hasAltName = true;
-						}
-	
-						$nameNode = $documentNode->createElement('name');
-						$nameNode->setAttribute('language', PKPLocale::getIso1FromLocale($otherLocal));
-	
-						$nameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
-	
-						if (isset($givenNames[$otherLocal]) && !empty($givenNames[$otherLocal])) {
-							$nameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenNames[$otherLocal]), ENT_COMPAT, 'UTF-8')));
-						}
-	
-						$altNameNode->appendChild($nameNode);
-					}
-				}
-			}
-	
-			if ($author->getData('orcid')) {
-				$personNameNode->appendChild($documentNode->createElement('ORCID', $author->getData('orcid')));
-			}
-	
-			if ($hasAltName && isset($altNameNode)) {
-				$personNameNode->appendChild($altNameNode);
-			}
-	
-			$contributorsNode->appendChild($personNameNode);
-			$isFirst = false;
-		}
-	
-		return $contributorsNode;
-	}
+/**
+ * Cria um elemento XML para os contribuidores (autores ou editores).
+ *
+ * @param DOMDocument $documentNode O nó do documento XML.
+ * @param array $authors Um array de objetos representando os autores ou editores.
+ * @param string $locale O idioma usado para os elementos XML.
+ * @param bool $isChapter Define se os contribuidores são para um capítulo.
+ * @return DOMElement O elemento XML que contém informações sobre os contribuidores.
+ */
+function createContributorsNode($documentNode, $authors, $locale, $isChapter = false) {
+    // Cria um elemento 'contributors' como nó pai.
+    $contributorsNode = $documentNode->createElement('contributors');
+    // Variável para rastrear se é o primeiro contribuidor.
+    $isFirst = true;
+
+    // Loop através dos autores/editores.
+    foreach ($authors as $author) {
+        // Cria um elemento 'person_name' para cada autor/editor.
+        $personNameNode = $documentNode->createElement('person_name');
+        // Variável para rastrear se o autor/editor tem um nome alternativo.
+        $hasAltName = false;
+
+        // Determina o papel do contribuidor (autor ou editor).
+        if ($isChapter || !$author->getData('isVolumeEditor')) {
+            $personNameNode->setAttribute('contributor_role', 'author');
+        } else {
+            $personNameNode->setAttribute('contributor_role', 'editor');
+        }
+
+        // Atribui a sequência do contribuidor (primeiro ou adicional).
+        if ($isFirst) {
+            $personNameNode->setAttribute('sequence', 'first');
+        } else {
+            $personNameNode->setAttribute('sequence', 'additional');
+        }
+
+        // Obtém os nomes de família e dados dos autores.
+        $familyNames = $author->getFamilyName(null);
+        $givenNames = $author->getGivenName(null);
+
+        // Verifica se há nomes de família e dados de autores.
+        if (!empty($familyNames) && !empty($givenNames)) {
+            // Atribui o idioma ao nó 'person_name'.
+            $personNameNode->setAttribute('language', PKPLocale::getIso1FromLocale($locale));
+
+            // Loop pelos nomes dados em diferentes idiomas.
+            foreach ($givenNames as $locale => $givenName) {
+                if (!empty($givenName)) {
+                    // Adiciona o nome dado ao nó 'person_name'.
+                    $personNameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenName), ENT_COMPAT, 'UTF-8')));
+                }
+            }
+
+            // Loop pelos sobrenomes em diferentes idiomas.
+            foreach ($familyNames as $locale => $familyName) {
+                if (!empty($familyName)) {
+                    // Adiciona o sobrenome ao nó 'person_name'.
+                    $personNameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
+                }
+            }
+
+            // Variável para rastrear se há um nome alternativo.
+            $hasAltName = false;
+
+            // Loop pelos sobrenomes em outros idiomas.
+            foreach ($familyNames as $otherLocal => $familyName) {
+                if ($otherLocal != $locale && isset($familyName) && !empty($familyName)) {
+                    // Verifica se é o primeiro nome alternativo.
+                    if (!$hasAltName) {
+                        // Cria o nó 'alt-name' se o nome alternativo existir.
+                        $altNameNode = $documentNode->createElement('alt-name');
+                        $hasAltName = true;
+                    }
+
+                    // Cria um nó 'name' para o nome alternativo.
+                    $nameNode = $documentNode->createElement('name');
+                    $nameNode->setAttribute('language', PKPLocale::getIso1FromLocale($otherLocal));
+
+                    // Adiciona o sobrenome ao nó 'name'.
+                    $nameNode->appendChild($documentNode->createElement('surname', htmlspecialchars(ucfirst($familyName), ENT_COMPAT, 'UTF-8')));
+
+                    // Adiciona o nome dado se estiver disponível.
+                    if (isset($givenNames[$otherLocal]) && !empty($givenNames[$otherLocal])) {
+                        $nameNode->appendChild($documentNode->createElement('given_name', htmlspecialchars(ucfirst($givenNames[$otherLocal]), ENT_COMPAT, 'UTF-8')));
+                    }
+
+                    // Adiciona o nó 'name' ao nó 'alt-name'.
+                    $altNameNode->appendChild($nameNode);
+                }
+            }
+        }
+
+        // Adiciona o ORCID se estiver disponível.
+        if ($author->getData('orcid')) {
+            $personNameNode->appendChild($documentNode->createElement('ORCID', $author->getData('orcid')));
+        }
+
+        // Adiciona o nó 'alt-name' ao nó 'person_name' se houver um nome alternativo.
+        if ($hasAltName && isset($altNameNode)) {
+            $personNameNode->appendChild($altNameNode);
+        }
+
+        // Adiciona o nó 'person_name' ao nó 'contributors'.
+        $contributorsNode->appendChild($personNameNode);
+
+        // Define $isFirst como false após o primeiro contribuidor.
+        $isFirst = false;
+    }
+
+    // Retorna o nó 'contributors' completo.
+    return $contributorsNode;
+}
+
 
 	function xmlEscape($value) {
 		return XMLNode::xmlentities($value, ENT_NOQUOTES);
