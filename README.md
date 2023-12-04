@@ -1,49 +1,18 @@
-#### OMPDatacite and DA|RA Plugin
+#### Crossref para Open Monograph Press
+<br>
+/plugins/importexport/crossref/<br><br>
+Plugin de exportação e depósito de arquivo XML Crossref.<br>
 
-#### Introduction
-This plugin registers DOIS for monographs and chapters  for DOI provider [Datacite.org](https://datacite.org).
+<br>Por padrão, <depositor_name> e <email_address> correspondem às informações relacionadas ao Contato de suporte técnico da página de Configuração da Editora.
 
-Current Schema version is [4.3](https://support.datacite.org/docs/datacite-metadata-schema-43)
+<br>
+Prints:<br><br>
+![image](https://github.com/danielsf93/crossref-datacite/assets/114300053/92f3f08a-7bbc-457d-bcd2-5dfb252dbb3e)
+<br><br>
+![image](https://github.com/danielsf93/crossref-datacite/assets/114300053/c192c2f8-6cea-490d-82c6-471bb2d30c47)
+<br><br>
+Nota: Caso algum livro não tenha ISBN ou ISSN relacionado a sua Série, não há problema algum.
 
-Additionally it supports [da|ra](https://www.da-ra.de/home/) registration;  Germany based Datacite DOI registration agency.
-
-
-Translations available in : [German](README_DE.md)
-
-####  Installation
-```bash
-OMP=/path/to/OMP_INSTALLATION
-cd $OMP/plugins/importexport
-git clone https://github.com/withanage/datacite
-```
-
-####  Setup Datacite
-![datacite](www/datacite.png)
-* Navigate to {OMP_SERVER}/index.php/{MY_PRESS}/management/importexport/plugin/DataciteExportPlugin
-* Use da|ra as DOI provider: Leave unchecked
-* Datacite URL : Use the test or production URL
-* Username  : Username
-* Password: Password
-* Only for testing: Use the DataCite test prefix for DOI registration. Please do not forget to remove this option for the production.
-* Test registry:  (Only for testing), provided by datacite
-* Test URL:  (Only for testing) Production URL for overwriting the XML entries
-
-####  Setup Da|ra
-![dara](www/dara.png)
-
-* Use da|ra as DOI provider: Please click this button
-* Datacite URL : Use the test or production URL of DARA API
-* Username  : Username
-* Password: Password
-* Only for testing: Use the da|ra test prefix for DOI registration. Please do not forget to remove this option for the production.
-* Test registry:  (Only for testing), provided by da|ra
-* Test URL:  (Only for testing) Production URL for overwriting the XML entries
-
-#### Usage
-![usage](www/usage.gif)
-
-####  Credits
-
-Main Developer and Designer
-
-[https://github.com/withanage](https://github.com/withanage)
+<br>
+<br>
+Créditos: https://github.com/ajnyga/datacite
