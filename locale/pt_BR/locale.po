@@ -16,7 +16,7 @@ msgid "plugins.importexport.crossref.displayName"
 msgstr "Plugin XML Crossref"
 
 msgid "plugins.importexport.crossref.description"
-msgstr "Deposite envios no formato XML Crossref do OMP."
+msgstr "Deposite livros no formato XML Crossref do OMP."
 
 msgid "plugins.importexport.crossref.deposited"
 msgstr "Depositado"
@@ -94,5 +94,5 @@ msgid "plugins.importexport.crossref.cliUsage"
 msgstr "<![CDATA[Usage: {$scriptName} {$pluginName} export [outputFileName] [journal_path] {issues|articles|galleys} objectId1 [objectId2] ... {$scriptName} {$pluginName} register [journal_path] {issues|articles|galleys} objectId1 [objectId2] ...]]>"
 
 msgid "plugins.importexport.crossref.error.noIssn"
-msgstr "A série não possui ISSN, mas não afetará nada no depósito e/ou exportação"
+msgstr "A Série não possui ISSN, mas não afetará nada no depósito e/ou exportação"
 
