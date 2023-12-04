@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @file plugins/importexport/datacite/index.php* Copyright (c) 2003-2019 John Willinsky* @ingroup plugins_importexport_datacite
- * @brief Wrapper for XML datacite import/export plugin.
+ * @file plugins/importexport/crossref/index.php* Copyright (c) 2003-2019 John Willinsky* @ingroup plugins_importexport_crossref
+ * @brief Wrapper for XML crossref import/export plugin.
  */
 
-require_once('DataciteExportPlugin.inc.php');
+require_once('CrossrefExportPlugin.inc.php');
 
-return new DataciteExportPlugin();
+return new CrossrefExportPlugin();
 
 
