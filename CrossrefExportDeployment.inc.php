@@ -123,11 +123,15 @@ class CrossrefExportDeployment extends PKPImportExportDeployment {
 		}
 		return $bookNode;
 	}
-
 	function createBookMetadataNode($documentNode, $submission, $publication) {
 		$request = Application::get()->getRequest();
 		$press = $request->getPress();
 		$locale = $publication->getData('locale');
+	
+		// Verificar se $locale está vazio e atribuir 'pt' como valor padrão
+		if (empty($locale)) {
+			$locale = 'pt';
+		}
 
 		// If the book is part of series use book_series_metadata else use book_metadata
 		// Consider adding book_set_metadata option in cases where a series does not have an ISSN

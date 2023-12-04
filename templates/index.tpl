@@ -92,7 +92,7 @@
                                                         {$item["authors"]}
                                                     </div>
                                                 </td>
-                                                <td><hr>
+                                                <td>
                                                     <div class="pkpListPanelItem__summary -pkpClearfix">
                                                         <div class="pkpListPanelItem--submission__item">
                                                             <div class="pkpListPanelItem--submission__reviewerWorkflowLink"><span
