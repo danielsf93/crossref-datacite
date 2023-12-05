@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doi_batch xmlns="http://www.crossref.org/schema/4.4.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" xmlns:ai="http://www.crossref.org/AccessIndicators.xsd" xmlns:rel="http://www.crossref.org/relations.xsd" version="4.4.2" xsi:schemaLocation="http://www.crossref.org/schema/4.4.2 https://www.crossref.org/schemas/crossref4.4.2.xsd">
+  <head>
+    <doi_batch_id>_20231205111230000</doi_batch_id>
+    <timestamp>20231205111230000</timestamp>
+    <depositor>
+      <depositor_name>tecnicosdoportal</depositor_name>
+      <email_address>tecnicosdoportal@hotmail.com</email_address>
+    </depositor>
+    <registrant>Portal de Livros Abertos da USP</registrant>
+  </head>
+  <body>
+    <book xmlns:default="http://www.crossref.org/schema/4.4.2" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" book_type="monograph">
+      <book_series_metadata xmlns="http://www.crossref.org/schema/4.4.2" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" language="pt">
+        <series_metadata>
+          <titles>
+            <title>Série Diálogos Interdisciplinares</title>
+          </titles>
+          <issn media_type="electronic">2318-2032</issn>
+        </series_metadata>
+        <contributors>
+          <person_name contributor_role="author" sequence="first" language="pt">
+            <given_name>Júlio</given_name>
+            <surname>César Suzuki </surname>
+            <ORCID>https://orcid.org/0000-0001-9943-1334</ORCID>
+          </person_name>
+          <person_name contributor_role="author" sequence="additional" language="pt">
+            <given_name>Rita de Cássia</given_name>
+            <surname>Marques Lima de Castro</surname>
+            <ORCID>https://orcid.org/0000-0002-0137-6005</ORCID>
+          </person_name>
+        </contributors>
+        <titles>
+          <title>Integração, Gênero e Instituições na América Latina e na África</title>
+        </titles>
+        <jats:abstract xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1">
+          <jats:p>A abordagem da integração de uma região tão instigante e multifacetada como é a América Latina, e como se apresenta o continente africano, não pode prescindir da abordagem institucional. Nesta obra, composta de cinco pesquisas interdisciplinares, temos as instituições perpassando temas como a democracia no Equador, a trajetória do MERCOSUL e a questão do regionalismo, as políticas linguísticas de Moçambique. Também abordando os jogos processuais e a abordagem de gênero em um importante jornal brasileiro, o livro conduz à análise reflexiva sobre o papel das instituições na busca da integração. Destinada não somente ao público acadêmico, mas a todos os interessados em geral na reflexão sobre temas instigantes envolvendo a América Latina, este livro integra a série “Diálogos Interdisciplinares”, inaugurando a interlocução entre os seguintes Programas de Pós-Graduação Interdisciplinares: Programa de Mestrado e Doutorado em Integração da América Latina (PROLAM) da Universidade de São Paulo (USP), Programa de Mestrado e Doutorado em Sociedade, Cultura e Fronteiras da Universidade Estadual do Oeste do Paraná (UNIOESTE) em Foz do Iguaçu, no Estado do Paraná, e Programa de Estudos Latino-Americanos (PPG-IELA) da Universidade Federal da Integração Latino-Americana (UNILA).</jats:p>
+        </jats:abstract>
+        <publication_date media_type="online">
+          <month>01</month>
+          <day>01</day>
+          <year>2023</year>
+        </publication_date>
+        <isbn media_type="electronic">0123456789</isbn>
+        <publisher>
+          <publisher_name>edPusp</publisher_name>
+        </publisher>
+        <doi_data>
+          <doi>10.1234/pusp.4</doi>
+          <resource>http://0.0.0.0:8888/index.php/portaldelivrosUSP/catalog/book/4</resource>
+        </doi_data>
+      </book_series_metadata>
+    </book>
+  </body>
+</doi_batch>

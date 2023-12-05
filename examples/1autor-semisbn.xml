@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doi_batch xmlns="http://www.crossref.org/schema/4.4.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" xmlns:ai="http://www.crossref.org/AccessIndicators.xsd" xmlns:rel="http://www.crossref.org/relations.xsd" version="4.4.2" xsi:schemaLocation="http://www.crossref.org/schema/4.4.2 https://www.crossref.org/schemas/crossref4.4.2.xsd">
+  <head>
+    <doi_batch_id>_20231205105816000</doi_batch_id>
+    <timestamp>20231205105816000</timestamp>
+    <depositor>
+      <depositor_name>tecnicosdoportal</depositor_name>
+      <email_address>tecnicosdoportal@hotmail.com</email_address>
+    </depositor>
+    <registrant>Portal de Livros Abertos da USP</registrant>
+  </head>
+  <body>
+    <book xmlns:default="http://www.crossref.org/schema/4.4.2" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" book_type="monograph">
+      <book_series_metadata xmlns="http://www.crossref.org/schema/4.4.2" xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" language="pt">
+        <series_metadata>
+          <titles>
+            <title>Arquivos NEHiLP</title>
+          </titles>
+          <issn media_type="electronic">2318-2032</issn>
+        </series_metadata>
+        <contributors>
+          <person_name contributor_role="author" sequence="first" language="pt">
+            <given_name>Nelson</given_name>
+            <surname>Papavero </surname>
+          </person_name>
+        </contributors>
+        <titles>
+          <title>Considerações sobre os felinos do velho mundo tratados como "onças": notas históricas e etimológicas</title>
+        </titles>
+        <jats:abstract xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1">
+          <jats:p>Os autores europeus promoveram uma considerável confusão sobre a identidade do felino denominado onça (lonza e outras variantes). Sob este nome foram incluídos o leopardo ou pantera (Panthera pardus (Linnaeus, 1758)), a chita ou guepardo (Acinonyx jubatus (Schreber, 1775)), o lince (Lynx lynx (Linnaeus, 1758)) e o caracal (Caracal caracal (Schreber, 1776), sendo ainda incluída nessa lista a hiena (Hyaena hyaena (Linnaeus, 1758)). O leopardo foi considerado um híbrido entre o leão (leo) e um felino mítico, o pardo (pardus) e diferente da pantera. Por vezes a lonza foi tratada como uma quarta espécie distinta e, por sua vez, atribuída a mais um caso de hibridação. Um apanhado da literatura sobre esses vários animais, desde a Antiguidade, até o século XIX é apresentado. As hipóteses sobre a etimologia dos diversos nomes desses felinos são comentadas. As mais prováveis são as seguintes: (i) para pardo: do sânscrito pṛdākuh (पृदाकु); (ii) para leopardo: do latim leo + pardus, baseado na ideia errônea de ser este animal um híbrido dessas duas espécies; (iii) para pantera: do Sânscrito puṇḍarīka (पु'डर*क); (iv) para lonza: de leontia; a derivação de lynx, comumente aceita, deve ser descartada, por terem o leopardo (ou pantera) e o lince propriamente dito diferentes folclores e aparências; (v) o nome chita, para o Acinonyx, foi publicado pela primeira vez por Garcia d’Orta (1563), por ele registrado na Índia; (vi) para caracal: do turco qarah-qoulaq = orelha preta ( =preto, = orelha); (vii) finalmente, para guepardo - sua designação provém da Língua Franca Mediterrênea ou Sabir gattopardo, alterado para gapardus, gapar(d) e guépard, sendo esta última forma devida a Buffon (1765), que a obteve dos peleteiros parisienses; através da influência de Buffon, o vocábulo passou para as línguas latinas modernas. Palavras-chave: Leopardo, Pantera, Onça, Lince, Caracal, Chita ou Guepardo, Histórico, Hipóteses Etimológicas.</jats:p>
+        </jats:abstract>
+        <publication_date media_type="online">
+          <month>10</month>
+          <day>05</day>
+          <year>2023</year>
+        </publication_date>
+        <noisbn reason="archive_volume"/>
+        <publisher>
+          <publisher_name>edPusp</publisher_name>
+        </publisher>
+        <doi_data>
+          <doi>10.1234/pusp.8</doi>
+          <resource>http://0.0.0.0:8888/index.php/portaldelivrosUSP/catalog/book/8</resource>
+        </doi_data>
+      </book_series_metadata>
+    </book>
+  </body>
+</doi_batch>
