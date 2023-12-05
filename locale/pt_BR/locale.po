@@ -25,7 +25,7 @@ msgid "plugins.importexport.crossref.depositedSubmissions"
 msgstr "Envios depositados"
 
 msgid "plugins.importexport.crossref.deposit"
-msgstr "Depósito"
+msgstr "Depositar"
 
 msgid "plugins.importexport.crossref.export"
 msgstr "Exportar"
